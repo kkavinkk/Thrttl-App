@@ -12,6 +12,10 @@ const Map: React.FC = () => {
           borderRadius: 12,
         }}
       />
+      {/* route generation and loading
+            route={generatedRoute}
+            isGenerating={isLoading}
+        */}
     </View>
   );
 };
