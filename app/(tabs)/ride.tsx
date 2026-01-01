@@ -1,41 +1,3 @@
-// import { useState } from "react";
-// import { Pressable, View } from "react-native";
-
-// import RideControls from "@/components/RideControls";
-// import Map from "@/components/RideMap";
-
-// export default function RideTab() {
-//   const [expanded, setExpanded] = useState(false);
-//   return (
-//     <View className="flex-1 relative">
-//       {/* Map */}
-//       <View className="absolute inset-0">
-//         <Map />
-//       </View>
-
-//       {/* Bottom Sheet (Web-safe) */}
-//       <View
-//         className={`absolute left-0 right-0 bottom-0 bg-white rounded-t-2xl
-//   transition-all duration-300 ease-out z-50
-//   ${expanded ? "h-[60%]" : "h-28"}`}
-//         style={{ elevation: 20 }}
-//       >
-//         {/* Drag Handle */}
-//         <Pressable
-//           onPress={() => setExpanded(!expanded)}
-//           className="items-center py-3"
-//         >
-//           <View className="w-12 h-2 rounded-full bg-red-50" />
-//         </Pressable>
-
-//         {/* Content */}
-//         <View className="px-4">
-//           <RideControls />
-//         </View>
-//       </View>
-//     </View>
-//   );
-// }
 import { useRef, useState } from "react";
 import {
   Animated,
@@ -47,6 +9,7 @@ import {
 
 import RideControls from "@/components/RideControls";
 import Map from "@/components/RideMap";
+import DistanceInput from "@/components/ui/distanceTime";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const MIN_SHEET_HEIGHT = SCREEN_HEIGHT * 0.03;
@@ -175,6 +138,7 @@ export default function RideTab() {
         {/* Content */}
         <View style={{ flex: 1, paddingHorizontal: 16 }}>
           <RideControls />
+          <DistanceInput />
         </View>
       </Animated.View>
     </View>
