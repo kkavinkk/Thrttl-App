@@ -10,6 +10,7 @@ import {
 import RideControls from "@/components/RideControls";
 import Map from "@/components/RideMap";
 import DistanceInput from "@/components/ui/distanceTime";
+import OptionSwitch from "@/components/ui/preferences";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const MIN_SHEET_HEIGHT = SCREEN_HEIGHT * 0.03;
@@ -139,6 +140,7 @@ export default function RideTab() {
         <View style={{ flex: 1, paddingHorizontal: 16 }}>
           <RideControls />
           <DistanceInput />
+          <OptionSwitch />
         </View>
       </Animated.View>
     </View>
