@@ -112,11 +112,18 @@ export default function OptionSwitch() {
         {/* Content sections */}
         <View className="bg-white rounded-xl p-5 shadow-md">
           {activeTab === "presets" && (
+            <View>{/* Add your Advanced component here */}</View>
+          )}
+          {activeTab === "preferences" && (
             <PreferencesSelector
               selected={preferences} // ✅ REQUIRED
               onChange={setPreferences} // ✅ REQUIRED
               maxSelected={2}
             />
+          )}
+
+          {activeTab === "advanced" && (
+            <View>{/* Add your Advanced component here */}</View>
           )}
         </View>
       </View>
