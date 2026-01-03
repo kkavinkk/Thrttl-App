@@ -1,78 +1,83 @@
-import { useState } from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
-export default function OptionSwitch() {
-  const [activeTab, setActiveTab] = useState("presets");
+type Preference = {
+  id: string;
+  label: string;
+};
+
+const PREFERENCES: Preference[] = [
+  { id: "CS", label: "Calm & Scenic" },
+  { id: "SI", label: "Sporty & Intense" },
+  { id: "CH", label: "Curve-heavy" },
+  { id: "FF", label: "Fast & Flowing" },
+  { id: "CB", label: "Scenic Backgrounds" },
+];
+
+interface PreferencesSelectorProps {
+  selected: string[];
+  maxSelected?: number;
+  onChange: (selected: string[]) => void;
+}
+
+export default function PreferencesSelector({
+  selected,
+  maxSelected = 2,
+  onChange,
+}: PreferencesSelectorProps) {
+  const safeSelected = selected ?? [];
+
+  const handleToggle = (id: string) => {
+    if (safeSelected.includes(id)) {
+      onChange(safeSelected.filter((item) => item !== id));
+    } else if (safeSelected.length < maxSelected) {
+      onChange([...safeSelected, id]);
+    }
+  };
+
+  const isSelected = (id: string) => safeSelected.includes(id);
+  const isDisabled = (id: string) =>
+    !isSelected(id) && safeSelected.length >= maxSelected;
 
   return (
-    <ScrollView className="flex-1 bg-gray-100">
-      <View className="p-5 max-w-2xl w-full self-center">
-        {/* Three-option switch */}
-        <View className="flex-row bg-gray-300 rounded-full p-1 mb-6">
-          <TouchableOpacity
-            onPress={() => setActiveTab("presets")}
-            className={`flex-1 py-2.5 px-4 rounded-full items-center ${
-              activeTab === "presets" ? "bg-blue-500" : ""
-            }`}
-          >
-            <Text
-              className={`text-sm font-semibold ${
-                activeTab === "presets" ? "text-white" : "text-gray-700"
-              }`}
-            >
-              Presets
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setActiveTab("preferences")}
-            className={`flex-1 py-2.5 px-4 rounded-full items-center ${
-              activeTab === "preferences" ? "bg-blue-500" : ""
-            }`}
-          >
-            <Text
-              className={`text-sm font-semibold ${
-                activeTab === "preferences" ? "text-white" : "text-gray-700"
-              }`}
-            >
-              Preferences
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setActiveTab("advanced")}
-            className={`flex-1 py-2.5 px-4 rounded-full items-center ${
-              activeTab === "advanced" ? "bg-blue-500" : ""
-            }`}
-          >
-            <Text
-              className={`text-sm font-semibold ${
-                activeTab === "advanced" ? "text-white" : "text-gray-700"
-              }`}
-            >
-              Advanced
-            </Text>
-          </TouchableOpacity>
-        </View>
+    <View>
+      <Text className="text-sm text-gray-600 mb-4">
+        Select up to {maxSelected} preferences
+      </Text>
 
-        {/* Content sections */}
-        <View className="bg-white rounded-xl p-5 shadow-md">
-          {activeTab === "presets" && (
-            <View>
-              {/* Add your Presets component here */}
-              <Image
-                source={require("../../assets/images/Kendrick_Lamar_-_Damn.png")}
-              />
+      <View className="flex-row flex-wrap">
+        {PREFERENCES.map((pref) => {
+          const isActive = isSelected(pref.id);
+          const disabled = isDisabled(pref.id);
+
+          return (
+            <View key={pref.id} className="mr-2 mb-2">
+              <TouchableOpacity
+                onPress={() => handleToggle(pref.id)}
+                disabled={disabled}
+                className={`px-4 py-2 rounded-full border-2 ${
+                  isActive
+                    ? "bg-blue-500 border-blue-500"
+                    : disabled
+                    ? "bg-gray-100 border-gray-300"
+                    : "bg-white border-gray-400"
+                }`}
+              >
+                <Text
+                  className={`font-medium ${
+                    isActive
+                      ? "text-white"
+                      : disabled
+                      ? "text-gray-400"
+                      : "text-gray-700"
+                  }`}
+                >
+                  {pref.label}
+                </Text>
+              </TouchableOpacity>
             </View>
-          )}
-
-          {activeTab === "preferences" && (
-            <View>{/* Add your Preferences component here */}</View>
-          )}
-
-          {activeTab === "advanced" && (
-            <View>{/* Add your Advanced component here */}</View>
-          )}
-        </View>
+          );
+        })}
       </View>
-    </ScrollView>
+    </View>
   );
 }
