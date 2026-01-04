@@ -18,6 +18,17 @@ const MAX_SHEET_HEIGHT = SCREEN_HEIGHT * 0.8;
 const SNAP_THRESHOLD = 50; // Distance to snap to next position
 
 export default function RideTab() {
+  //App use states
+  const [activeTab, setActiveTab] = useState<
+    "presets" | "preferences" | "advanced"
+  >("presets");
+  const [isLoop, setIsLoop] = useState(false);
+  const [startLocation, setStartLocation] = useState("");
+  const [endLocation, setEndLocation] = useState("");
+  const [distance, setDistance] = useState("");
+  const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
+  const [selectedPreferences, setSelectedPreferences] = useState<string[]>([]);
+
   const [sheetHeight, setSheetHeight] = useState(MIN_SHEET_HEIGHT);
   const animatedHeight = useRef(new Animated.Value(MIN_SHEET_HEIGHT)).current;
   const lastHeight = useRef(MIN_SHEET_HEIGHT);

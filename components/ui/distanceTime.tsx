@@ -6,11 +6,8 @@
 import { useState } from "react";
 import { Text, TextInput, View } from "react-native";
 
-type Unit = "km";
-
 export default function DistanceInput() {
   const [distance, setDistance] = useState("");
-  const [unit, setUnit] = useState<Unit>("km");
 
   const handleDistanceChange = (text: string) => {
     // Allow numbers and one decimal point
@@ -76,7 +73,7 @@ export default function DistanceInput() {
               fontWeight: "500",
             }}
           >
-            {unit}
+            km
           </Text>
         </View>
       </View>

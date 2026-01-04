@@ -11,7 +11,6 @@ export default function OptionSwitch() {
 
   const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
   const [selectedPreferences, setSelectedPreferences] = useState<string[]>([]);
-
   const handleTabChange = (tab: typeof activeTab) => {
     setActiveTab(tab);
 
