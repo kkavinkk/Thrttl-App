@@ -44,7 +44,7 @@ export default function PreferencesSelector({
         Select up to {maxSelected} preferences
       </Text>
 
-      <View className="flex-row flex-wrap">
+      <View className="flex-row flex-wrap justify-center">
         {PREFERENCES.map((pref) => {
           const isActive = isSelected(pref.id);
           const disabled = isDisabled(pref.id);
