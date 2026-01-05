@@ -1,20 +1,31 @@
-import { useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 import PreferencesSelector from "./preferences";
 import Presets from "./presets";
 
-export default function OptionSwitch() {
-  const [activeTab, setActiveTab] = useState<
-    "presets" | "preferences" | "advanced"
-  >("presets");
+type Tab = "presets" | "preferences" | "advanced";
 
-  const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
-  const [selectedPreferences, setSelectedPreferences] = useState<string[]>([]);
-  const handleTabChange = (tab: typeof activeTab) => {
+type Props = {
+  activeTab: Tab;
+  setActiveTab: (t: Tab) => void;
+  selectedPreset: string | null;
+  setSelectedPreset: (v: string | null) => void;
+  selectedPreferences: string[];
+  setSelectedPreferences: (v: string[]) => void;
+};
+
+export default function OptionSwitch({
+  activeTab,
+  setActiveTab,
+  selectedPreset,
+  setSelectedPreset,
+  selectedPreferences,
+  setSelectedPreferences,
+}: Props) {
+  const handleTabChange = (tab: Tab) => {
     setActiveTab(tab);
 
-    // 🔥 CLEAR ALL OTHER STATE
+    // 🔥 clear other state
     if (tab !== "presets") setSelectedPreset(null);
     if (tab !== "preferences") setSelectedPreferences([]);
   };

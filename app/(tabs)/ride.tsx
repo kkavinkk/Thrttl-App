@@ -158,7 +158,14 @@ export default function RideTab() {
             setEndLocation={setEndLocation}
           />
           <DistanceInput distance={distance} setDistance={setDistance} />
-          <OptionSwitch />
+          <OptionSwitch
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            selectedPreset={selectedPreset}
+            setSelectedPreset={setSelectedPreset}
+            selectedPreferences={selectedPreferences}
+            setSelectedPreferences={setSelectedPreferences}
+          />
         </View>
       </Animated.View>
     </View>
