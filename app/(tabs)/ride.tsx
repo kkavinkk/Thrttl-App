@@ -157,7 +157,7 @@ export default function RideTab() {
             endLocation={endLocation}
             setEndLocation={setEndLocation}
           />
-          <DistanceInput />
+          <DistanceInput distance={distance} setDistance={setDistance} />
           <OptionSwitch />
         </View>
       </Animated.View>

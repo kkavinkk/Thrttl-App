@@ -3,12 +3,14 @@
 
 // TIME IS ONLY SHOWN AFTER GENERATION to give context to the ride
 // distance is intent time is calculation
-import { useState } from "react";
 import { Text, TextInput, View } from "react-native";
 
-export default function DistanceInput() {
-  const [distance, setDistance] = useState("");
+type Props = {
+  distance: string;
+  setDistance: (v: string) => void;
+};
 
+export default function DistanceInput({ distance, setDistance }: Props) {
   const handleDistanceChange = (text: string) => {
     // Allow numbers and one decimal point
     const numericValue = text.replace(/[^0-9.]/g, "");
