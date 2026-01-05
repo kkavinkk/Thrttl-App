@@ -8,6 +8,7 @@ import {
 } from "react-native";
 
 import Map from "@/components/RideMap";
+import GenerateButton from "@/components/ui/(NULL)generatebutton";
 import DistanceInput from "@/components/ui/distanceTime";
 import StartOptions from "@/components/ui/StartOptions";
 import OptionSwitch from "@/components/ui/threePieceSwitch";
@@ -98,6 +99,32 @@ export default function RideTab() {
 
     setSheetHeight(targetHeight);
   };
+  // ✅ MUST BE HERE
+  const canGenerate =
+    distance !== "" &&
+    startLocation !== "" &&
+    (isLoop || endLocation !== "") &&
+    (selectedPreset !== null || selectedPreferences.length > 0);
+
+  const generateRoute = async () => {
+    const payload = {
+      isLoop,
+      startLocation,
+      endLocation: isLoop ? null : endLocation,
+      distance,
+      activeTab,
+      selectedPreset,
+      selectedPreferences,
+    };
+
+    await fetch("/api/generate-route", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+  };
 
   return (
     <View style={{ flex: 1, position: "relative" }}>
@@ -166,6 +193,7 @@ export default function RideTab() {
             selectedPreferences={selectedPreferences}
             setSelectedPreferences={setSelectedPreferences}
           />
+          <GenerateButton disabled={!canGenerate} onPress={generateRoute} />
         </View>
       </Animated.View>
     </View>
