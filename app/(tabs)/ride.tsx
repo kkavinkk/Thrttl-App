@@ -7,9 +7,9 @@ import {
   View,
 } from "react-native";
 
-import RideControls from "@/components/RideControls";
 import Map from "@/components/RideMap";
 import DistanceInput from "@/components/ui/distanceTime";
+import StartOptions from "@/components/ui/StartOptions";
 import OptionSwitch from "@/components/ui/threePieceSwitch";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -149,7 +149,14 @@ export default function RideTab() {
 
         {/* Content */}
         <View style={{ flex: 1, paddingHorizontal: 16 }}>
-          <RideControls />
+          <StartOptions
+            isLoop={isLoop}
+            setIsLoop={setIsLoop}
+            startLocation={startLocation}
+            setStartLocation={setStartLocation}
+            endLocation={endLocation}
+            setEndLocation={setEndLocation}
+          />
           <DistanceInput />
           <OptionSwitch />
         </View>

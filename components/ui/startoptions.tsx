@@ -6,16 +6,28 @@
 //Idea -> Loop selector switch, when active only start location shows
 //        When deactive that it reveals end location active
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Animated, Pressable, Text, TextInput, View } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 
-export default function StartOptions() {
-  const [isLoop, setIsLoop] = useState(false);
-  const [startLocation, setStartLocation] = useState("");
-  const [endLocation, setEndLocation] = useState("");
+type Props = {
+  isLoop: boolean;
+  setIsLoop: (v: boolean) => void;
+  startLocation: string;
+  setStartLocation: (v: string) => void;
+  endLocation: string;
+  setEndLocation: (v: string) => void;
+};
 
+export default function StartOptions({
+  isLoop,
+  setIsLoop,
+  startLocation,
+  setStartLocation,
+  endLocation,
+  setEndLocation,
+}: Props) {
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   const toggleSwitch = () => {
