@@ -1,9 +1,19 @@
 import React from "react";
-import { Image, View } from "react-native";
+import { Image, Text, View } from "react-native";
 
-const Map: React.FC = () => {
+type Route = {
+  distance: string;
+  isLoop: boolean;
+};
+
+type MapProps = {
+  route: Route | null;
+  isGenerating: boolean;
+};
+
+const Map: React.FC<MapProps> = ({ route, isGenerating }) => {
   return (
-    <View>
+    <View style={{ position: "relative" }}>
       <Image
         source={require("../assets/images/mapPlaceHolder.png")}
         style={{
@@ -12,10 +22,39 @@ const Map: React.FC = () => {
           borderRadius: 12,
         }}
       />
-      {/* route generation and loading
-            route={generatedRoute}
-            isGenerating={isLoading}
-        */}
+
+      {isGenerating && (
+        <View
+          style={{
+            position: "absolute",
+            inset: 0,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(255,255,255,0.6)",
+          }}
+        >
+          <Text>Generating route…</Text>
+        </View>
+      )}
+
+      {route && (
+        <View
+          style={{
+            position: "absolute",
+            bottom: 12,
+            left: 12,
+            right: 12,
+            backgroundColor: "white",
+            padding: 8,
+            borderRadius: 8,
+          }}
+        >
+          <Text style={{ fontSize: 12 }}>
+            {route.isLoop ? "Loop ride" : "Point-to-point"} · {route.distance}{" "}
+            km
+          </Text>
+        </View>
+      )}
     </View>
   );
 };

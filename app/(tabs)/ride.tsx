@@ -30,6 +30,13 @@ export default function RideTab() {
   const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
   const [selectedPreferences, setSelectedPreferences] = useState<string[]>([]);
 
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [currentRoute, setCurrentRoute] = useState<null | {
+    distance: string;
+    isLoop: boolean;
+  }>(null);
+
+  //bottom sheet use states
   const [sheetHeight, setSheetHeight] = useState(MIN_SHEET_HEIGHT);
   const animatedHeight = useRef(new Animated.Value(MIN_SHEET_HEIGHT)).current;
   const lastHeight = useRef(MIN_SHEET_HEIGHT);
@@ -106,24 +113,18 @@ export default function RideTab() {
     (isLoop || endLocation !== "") &&
     (selectedPreset !== null || selectedPreferences.length > 0);
 
-  const generateRoute = async () => {
-    const payload = {
-      isLoop,
-      startLocation,
-      endLocation: isLoop ? null : endLocation,
-      distance,
-      activeTab,
-      selectedPreset,
-      selectedPreferences,
-    };
+  const generateRoute = () => {
+    setIsGenerating(true);
 
-    await fetch("/api/generate-route", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
+    // simulate generation delay
+    setTimeout(() => {
+      setCurrentRoute({
+        distance,
+        isLoop,
+      });
+
+      setIsGenerating(false);
+    }, 800);
   };
 
   return (
@@ -132,7 +133,7 @@ export default function RideTab() {
       <View
         style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
       >
-        <Map />
+        <Map route={currentRoute} isGenerating={isGenerating} />
       </View>
 
       {/* Bottom Sheet */}
