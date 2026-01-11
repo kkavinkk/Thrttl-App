@@ -7,11 +7,16 @@ import {
   View,
 } from "react-native";
 
+//components
 import Map from "@/components/RideMap";
 import GenerateButton from "@/components/ui/(NULL)generatebutton";
 import DistanceInput from "@/components/ui/distanceTime";
 import StartOptions from "@/components/ui/StartOptions";
 import OptionSwitch from "@/components/ui/threePieceSwitch";
+
+//services
+import { generateMockRoute } from "@/SERVICES/mockRoute";
+import { GeneratedRoute } from "@/types/route";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const MIN_SHEET_HEIGHT = SCREEN_HEIGHT * 0.03;
@@ -31,10 +36,17 @@ export default function RideTab() {
   const [selectedPreferences, setSelectedPreferences] = useState<string[]>([]);
 
   const [isGenerating, setIsGenerating] = useState(false);
-  const [currentRoute, setCurrentRoute] = useState<null | {
-    distance: string;
-    isLoop: boolean;
-  }>(null);
+  const [currentRoute, setCurrentRoute] = useState<GeneratedRoute | null>(null);
+
+  function handleGenerate() {
+    setIsGenerating(true);
+
+    setTimeout(() => {
+      const newRoute = generateMockRoute();
+      setCurrentRoute(newRoute);
+      setIsGenerating(false);
+    }, 800);
+  }
 
   //bottom sheet use states
   const [sheetHeight, setSheetHeight] = useState(MIN_SHEET_HEIGHT);
@@ -113,28 +125,10 @@ export default function RideTab() {
     (isLoop || endLocation !== "") &&
     (selectedPreset !== null || selectedPreferences.length > 0);
 
-  const generateRoute = () => {
-    setIsGenerating(true);
-
-    // simulate generation delay
-    setTimeout(() => {
-      setCurrentRoute({
-        distance,
-        isLoop,
-      });
-
-      setIsGenerating(false);
-    }, 800);
-  };
-
   return (
     <View style={{ flex: 1, position: "relative" }}>
       {/* Map */}
-      <View
-        style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
-      >
-        <Map route={currentRoute} isGenerating={isGenerating} />
-      </View>
+      <Map route={currentRoute} isGenerating={isGenerating} />
 
       {/* Bottom Sheet */}
       <Animated.View
@@ -194,7 +188,7 @@ export default function RideTab() {
             selectedPreferences={selectedPreferences}
             setSelectedPreferences={setSelectedPreferences}
           />
-          <GenerateButton disabled={!canGenerate} onPress={generateRoute} />
+          <GenerateButton disabled={!canGenerate} onPress={handleGenerate} />
         </View>
       </Animated.View>
     </View>

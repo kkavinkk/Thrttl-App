@@ -1,62 +1,37 @@
-import React from "react";
+import { GeneratedRoute } from "@/types/route";
+import { useEffect } from "react";
 import { Image, Text, View } from "react-native";
 
-type Route = {
-  distance: string;
-  isLoop: boolean;
-};
-
-type MapProps = {
-  route: Route | null;
+type Props = {
+  route: GeneratedRoute | null;
   isGenerating: boolean;
 };
 
-const Map: React.FC<MapProps> = ({ route, isGenerating }) => {
+export default function Map({ route, isGenerating }: Props) {
+  useEffect(() => {
+    if (route) {
+      console.log("Route generated:", route.points);
+    }
+  }, [route]);
+
   return (
-    <View style={{ position: "relative" }}>
+    <View style={{ flex: 1 }}>
       <Image
         source={require("../assets/images/mapPlaceHolder.png")}
-        style={{
-          width: "100%",
-          height: 325,
-          borderRadius: 12,
-        }}
+        style={{ width: "100%", height: "100%" }}
       />
 
       {isGenerating && (
-        <View
-          style={{
-            position: "absolute",
-            inset: 0,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(255,255,255,0.6)",
-          }}
-        >
-          <Text>Generating route…</Text>
-        </View>
+        <Text style={{ position: "absolute", top: 50, alignSelf: "center" }}>
+          Generating route...
+        </Text>
       )}
 
       {route && (
-        <View
-          style={{
-            position: "absolute",
-            bottom: 12,
-            left: 12,
-            right: 12,
-            backgroundColor: "white",
-            padding: 8,
-            borderRadius: 8,
-          }}
-        >
-          <Text style={{ fontSize: 12 }}>
-            {route.isLoop ? "Loop ride" : "Point-to-point"} · {route.distance}{" "}
-            km
-          </Text>
-        </View>
+        <Text style={{ position: "absolute", top: 80, alignSelf: "center" }}>
+          Route ready ({route.points.length} points)
+        </Text>
       )}
     </View>
   );
-};
-
-export default Map;
+}
